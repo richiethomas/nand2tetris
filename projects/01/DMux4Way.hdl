@@ -16,5 +16,16 @@ CHIP DMux4Way {
     OUT a, b, c, d;
 
     PARTS:
-    // Put your code here:
+    And(a=sel[0], b=sel[0], out=ysel1);
+    And(a=sel[1], b=sel[1], out=ysel0);
+    Not(in=ysel0, out=nsel0);
+    Not(in=ysel1, out=nsel1);
+    And(a=nsel0, b=nsel1, out=nono);
+    And(a=nsel0, b=ysel1, out=noyes);
+    And(a=ysel0, b=nsel1, out=yesno);
+    And(a=ysel0, b=ysel1, out=yesyes);
+    And(a=nono, b=in, out=a);
+    And(a=noyes, b=in, out=b);
+    And(a=yesno, b=in, out=c);
+    And(a=yesyes, b=in, out=d);
 }
