@@ -36,11 +36,44 @@ CHIP ALU {
         f,  // compute out = x + y (if 1) or x & y (if 0)
         no; // negate the out output?
 
-    OUT 
+    OUT
         out[16], // 16-bit output
         zr, // 1 if (out == 0), 0 otherwise
         ng; // 1 if (out < 0),  0 otherwise
 
     PARTS:
-   // Put you code here:
+    // Zero the x input
+    Mux16(a=x, b[0..15]=false, sel=zx, out=x1);
+
+    // Negate the x input
+    Not16(in=x1, out=notx1);
+    Mux16(a=x1, b=notx1, sel=nx, out=x2);
+
+    // Zero the y input
+    Mux16(a=y, b[0..15]=false, sel=zy, out=y1);
+
+    // Negate the y input
+    Not16(in=y1, out=noty1);
+    Mux16(a=y1, b=noty1, sel=ny, out=y2);
+
+    // Compute x + y
+    Add16(a=x2, b=y2, out=x2plusy2);
+
+    // Compute x & y
+    And16(a=x2, b=y2, out=x2andy2);
+
+    // Choose between (x + y) or (x & y)
+    Mux16(a=x2andy2, b=x2plusy2, sel=f, out=fresult);
+
+    // Negate the above result
+    Not16(in=fresult, out=notfresult);
+
+    // Compute out (i.e. choose between the regular or negated result)
+    Mux16(a=fresult, b=notfresult, sel=no, out=out, out[15]=ng, out[0..7]=firsthalf, out[8..15]=secondhalf);
+
+    // Compute zr
+    Or8Way(in=firsthalf, out=any0thru7);
+    Or8Way(in=secondhalf, out=any8thru15);
+    Or(a=any0thru7, b=any8thru15, out=notallzeroes);
+    Not(in=notallzeroes, out=zr);
 }
