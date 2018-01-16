@@ -33,3 +33,7 @@
   D=M
   @R2
   M=D
+
+  (TERMINATE)
+  @TERMINATE
+  0;JMP
