@@ -1,0 +1,26 @@
+  @counter
+  M=0
+  @accumulator
+  M=0
+(LOOP)
+  @counter
+  M=M+1
+  D=M
+  @accumulator
+  M=M+D
+  @counter
+  D=M
+  @R0
+  D=D-M
+  @END
+  D;JEQ
+  @LOOP
+  0;JMP
+(END)
+  @accumulator
+  D=M
+  @R2
+  M=D
+(TERMINATE)
+  @TERMINATE
+  0;JMP

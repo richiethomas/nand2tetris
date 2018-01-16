@@ -1,0 +1,11 @@
+@R0
+D=M
+@END
+D;JLE
+@1
+M=A
+(END)
+@END
+0;JMP
+@temp
+@temp2
