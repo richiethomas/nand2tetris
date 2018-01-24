@@ -33,7 +33,7 @@
   M=M+1
   
 // Increment the row up by 1 (i.e. 32 bits)
-  @16
+  @1
   D=A
   @addr
   M=D+M
