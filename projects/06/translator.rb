@@ -1,3 +1,6 @@
+require './parser.rb'
+require 'byebug'
+
 class Translator
   def self.convert_number_to_binary(number)
     number = number.to_s(2)
@@ -12,14 +15,14 @@ class Translator
     a = dest.include?('A') ? 1 : 0
     m = dest.include?('M') ? 1 : 0
     d = dest.include?('D') ? 1 : 0
-
+    # byebug
     return "#{a}#{d}#{m}"
   end
 
   def self.extract_comp_from_line(line)
     comp = Parser.parse_comp(line)
-    a = comp.include?("M") ? 1 : 0
-    c = case comp
+    a_bit = comp.include?("M") ? 1 : 0
+    c_bits = case comp
     when "0"
       "101010"
     when "1"
@@ -59,29 +62,32 @@ class Translator
     else
       nil
     end
-    return "#{a}#{c}"
+    # byebug
+    return "#{a_bit}#{c_bits}"
   end
 
   def self.extract_jump_from_line(line)
     jump = Parser.parse_jump(line)
 
-    case jump
+    output = case jump
     when "JGT"
-      return "001"
+      "001"
     when "JEQ"
-      return "010"
+      "010"
     when "JGE"
-      return "011"
+      "011"
     when "JLT"
-      return "100"
+      "100"
     when "JNE"
-      return "101"
+      "101"
     when "JLE"
-      return "110"
+      "110"
     when "JMP"
-      return "111"
+      "111"
     else
-      return "000"
+      "000"
     end
+
+    return output
   end
 end
