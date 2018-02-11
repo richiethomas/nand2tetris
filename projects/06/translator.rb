@@ -7,7 +7,8 @@ require './binary_reader.rb'
 
 class Translator
   def self.translate(line)
-    if Parser.instruction_is_decimal?(line)
+    line = line.gsub(/\s/, "")
+    if BinaryReader.instruction_is_decimal?(line)
       number = BinaryReader.translate(line)
       return "#{'0' * (16 - number.length)}#{number}"
     else

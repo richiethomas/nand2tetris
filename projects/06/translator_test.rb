@@ -1,8 +1,11 @@
 require './translator.rb'
 require 'byebug'
 
-line = "D=M"
-p Translator.extract_jump_from_line(line) == "000"
+line = "@21"
+p "#{Translator.translate(line) == "0000000000010101"} (Handles A-instructions)"
 
 line = "MD=D+1"
-p Translator.extract_jump_from_line(line) == "000"
+p "#{Translator.translate(line) == "1110011111011000"} (Handles C instructions)"
+
+line = "MD = D + 1"
+p "#{Translator.translate(line) == "1110011111011000"} (Handles instructions w/ whitespace)"
