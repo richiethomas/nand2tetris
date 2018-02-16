@@ -1,7 +1,7 @@
 
 module ConvertToBinary
 
-  protected
+  private
 
   def pad_binary(number)
     line = number.to_s(2)
